@@ -1,11 +1,4 @@
-from fastapi.testclient import TestClient
-
-from src.app import app
-
-client = TestClient(app)
-
-
-def test_unregister_participant_from_activity():
+def test_unregister_participant_from_activity(client):
     activity_name = "Chess Club"
     email = "michael@mergington.edu"
 
@@ -15,7 +8,7 @@ def test_unregister_participant_from_activity():
     assert email not in response.json()["participants"]
 
 
-def test_unregister_missing_participant_returns_404():
+def test_unregister_missing_participant_returns_404(client):
     response = client.delete("/activities/Chess Club/participants/not-found@mergington.edu")
 
     assert response.status_code == 404
